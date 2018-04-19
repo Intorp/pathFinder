@@ -1,29 +1,29 @@
 package graph;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-		String fileName = "exploracao_lunar_v2.input";
+		String fileName = "exploracao_lunar.input";
+		String outputFileName = "exploracao_lunar.output";
 		
-		//fileName = "teste_controlado.input";
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		
-		BufferedReader br = new BufferedReader(new FileReader("C:/" + fileName));
+		File outputFile = new File (outputFileName);
+		FileWriter fileW = new FileWriter (outputFile);
+		BufferedWriter buffW = new BufferedWriter (fileW);
 		
 		Graph<String> graph = new Graph<>();
 		int numberOfLines = 0;
 		int actualLine = 0;
 		Boolean start = true;
-		
-		String[][] text = new String[0][0];
 		
 		while(br.ready()){ 
 			String linha = br.readLine();
@@ -34,7 +34,6 @@ public class Main {
 				if(start) {
 					graph = new Graph<>();
 					numberOfLines = Integer.parseInt(linha);
-					text = new String[numberOfLines][numberOfLines];
 					for (int i = 0; i <= numberOfLines; i++) {
 						graph.addVertex(Integer.toString(i));
 					}
@@ -63,25 +62,28 @@ public class Main {
 									destiny = vert;
 								}
 							}
-							System.out.print(graph.hasPath(origin, destiny) ? "* " : "! ");
+							buffW.write(graph.hasPath(origin, destiny) ? "* " : "! ");
+							//System.out.print(graph.hasPath(origin, destiny) ? "* " : "! ");
 						}catch (Exception e){
-							System.out.println("Ferrou: " + linha);
+							System.out.println("Ferrou: " + e);
 						}
 					}
 					actualLine++;
 				}
 			}else {
-				System.out.println();
+				buffW.newLine();
+				//System.out.println();
 			}
 		} 
+		buffW.flush();
 		br.close();
+		buffW.close();
 	}
 	
 	public void Teste() {
 		Graph<String> graph = new Graph<>();
 		
 		int numberOfLines = 0;
-		int remainingLines = 0;
 		
 		for (int i = 0; i < numberOfLines; i++) {
 			graph.addVertex(Integer.toString(i));
