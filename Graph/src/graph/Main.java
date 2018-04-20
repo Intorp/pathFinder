@@ -43,7 +43,7 @@ public class Main {
 					if(actualLine < numberOfLines) {
 						String[] connections = linha.split(" ");
 						for (int i = 0; i < connections.length; i++) {
-							if(!connections[i].equals(".") && !connections[i].equals("*")) {
+							if(i == actualLine) {
 								graph.vertices.get(i).setValue(connections[i]);
 							}else if (connections[i].equals(".")){
 								graph.vertices.get(actualLine).addEdge(graph.vertices.get(i));
